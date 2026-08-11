@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <LangVersion>latestmajor</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>Alexandra Hermann – Beratung, Software, Design: Crypt System Library</Title>
+        <Authors>Alexandra Hermann</Authors>
+        <Copyright>Copyright © 2026 Alexandra Hermann – Beratung, Software, Design</Copyright>
+        <Company>Alexandra Hermann – Beratung, Software, Design</Company>
+        <Product>AHBSD Crypt</Product>
+        <AssemblyVersion>1.0</AssemblyVersion>
+        <NeutralLanguage>en-DE</NeutralLanguage>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+      <DocumentationFile>bin\Debug\net10.0\ahbsd.lib.crypt.xml</DocumentationFile>
+      <WarningLevel>4</WarningLevel>
+      <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+      <DebugSymbols>true</DebugSymbols>
+      <DocumentationFile>bin\Release\net10.0\ahbsd.lib.crypt.xml</DocumentationFile>
+      <WarningLevel>2</WarningLevel>
+      <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="JetBrains.Annotations" Version="2026.2.0" />
+    </ItemGroup>
+
+</Project>

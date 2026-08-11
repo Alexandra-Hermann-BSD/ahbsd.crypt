@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ahbsd.lib.crypt.Tests/ahbsd.lib.crypt.Tests.csproj" />
+  <Project Path="ahbsd.lib.crypt/ahbsd.lib.crypt.csproj" />
+</Solution>
