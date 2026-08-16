@@ -10,19 +10,24 @@ namespace ahbsd.lib.crypt;
 /// <remarks>
 /// The class implements the IKeyPart interface and provides methods to add values and access the stored values.
 /// </remarks>
-public class KeyPart : IKeyPart
+public class KeyPart : Component, IKeyPart, IComparable<KeyPart>
 {
-    private List<char> _values;
+    private readonly List<char> _values;
     
     /// <summary>
     /// Constructor with a given key character.
     /// </summary>
     /// <param name="key">The given key character.</param>
+    /// <param name="site">[Optional] The site for the key part.</param>
     /// <exception cref="ArgumentException">If the given <paramref name="key"/> is not a valid key part.</exception>
-    public KeyPart(char key)
+    public KeyPart(char key, ISite? site = null)
     {
+        // ReSharper disable once LocalizableElement
         if (!IsValidChar(key)) throw new ArgumentException($"'{key}' is not a valid key part.", nameof(key));
-
+        
+        // ReSharper disable once VirtualMemberCallInConstructor
+        Site = site;
+        
         KeyPartKey = key;
         _values = new List<char>(MaxValuesPerKeyPart);
     }
@@ -53,16 +58,10 @@ public class KeyPart : IKeyPart
     #region implementation of IList<char>
 
     /// <inheritdoc />
-    public IEnumerator<char> GetEnumerator()
-    {
-        return _values.GetEnumerator();
-    }
+    public IEnumerator<char> GetEnumerator() => _values.GetEnumerator();
 
     /// <inheritdoc />
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return ((IEnumerable)_values).GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)_values).GetEnumerator();
 
     /// <inheritdoc />
     public int Count => _values.Count;
@@ -73,7 +72,10 @@ public class KeyPart : IKeyPart
     #endregion
 
     #region overrides
-    
+
+    /// <inheritdoc />
+    public int CompareTo(IKeyPart? other) => CompareTo(other as KeyPart);
+
     /// <inheritdoc />
     [Localizable(false)]
     public override string ToString() => $"KeyPart – Key: {KeyPartKey}; {Count} Values";
@@ -92,4 +94,23 @@ public class KeyPart : IKeyPart
     /// <param name="c">The given character.</param>
     /// <returns><c>true</c> if the character is valid; otherwise, <c>false</c>.</returns>
     internal static bool IsValidChar(char c) => c is >= '0' and <= '9' or >= 'A' and <= 'F';
+
+    #region implementation of IComparable<KeyPart>
+    /// <inheritdoc />
+    public int CompareTo(KeyPart? other)
+    {
+        if (ReferenceEquals(this, other)) return 0;
+        if (other is null) return 1;
+        var result = KeyPartKey.CompareTo(other.KeyPartKey);
+        if (result == 0)
+        {
+            for (var i = 0; i < Count; i++)
+            {
+                result = _values[i].CompareTo(other._values[i]);
+                if (result != 0) break;
+            }
+        }
+        return result;
+    }
+    #endregion
 }

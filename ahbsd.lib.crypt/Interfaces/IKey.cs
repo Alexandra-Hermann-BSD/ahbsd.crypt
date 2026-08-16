@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using JetBrains.Annotations;
 
 namespace ahbsd.lib.crypt.Interfaces;
@@ -7,7 +8,7 @@ namespace ahbsd.lib.crypt.Interfaces;
 /// allowing for read-only access to the key parts associated with each character.
 /// </summary>
 [PublicAPI]
-public interface IKey : IReadOnlyDictionary<char, IKeyPart>
+public interface IKey : IComponent, IReadOnlyDictionary<char, IKeyPart>, IComparable<IKey>
 {
     /// <summary>
     /// Gets the name of the key.

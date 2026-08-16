@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using JetBrains.Annotations;
 
 namespace ahbsd.lib.crypt.Interfaces;
@@ -6,7 +7,7 @@ namespace ahbsd.lib.crypt.Interfaces;
 /// Interface for a part of a key.
 /// </summary>
 [PublicAPI]
-public interface IKeyPart : IReadOnlyList<char>
+public interface IKeyPart : IComponent, IReadOnlyList<char>, IComparable<IKeyPart>
 {
     /// <summary>
     /// Gets the key for this key part.
